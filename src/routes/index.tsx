@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import nursaLogo from "@/assets/nursa-logo.png";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -19,7 +20,8 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-3 bg-background px-6 text-center">
+    <main className="relative flex min-h-screen flex-col items-center justify-center gap-3 bg-background px-6 text-center">
+      <img src={nursaLogo} alt="Nursa logo" className="absolute top-8 left-1/2 h-12 w-auto -translate-x-1/2" />
       <h1 className="text-4xl font-semibold tracking-tight text-foreground">
         Github test
       </h1>
