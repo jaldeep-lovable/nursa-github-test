@@ -4,6 +4,7 @@
 A new page in the app that lists every open pull request across the GitHub repositories your connected GitHub account can see, so you can review them in one place.
 
 ## What you will see
+- A big "GITHUB" title at the top of the page.
 - A header with the Nursa logo, page title, total open PR count and a Refresh button.
 - Filter bar: search by title, filter by repository, author, and status (draft / ready / review requested).
 - A table of PRs: repository, title (links to GitHub), author with avatar, branch (head -> base), CI check status, review status, age, and labels.
