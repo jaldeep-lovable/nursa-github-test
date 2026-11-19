@@ -6,11 +6,33 @@ import {
   useRouter,
   HeadContent,
   Scripts,
+  type ErrorComponentProps,
 } from "@tanstack/react-router";
+import { createServerFn } from "@tanstack/react-start";
+import { AuthSessionProvider } from "@lovable.dev/lovable-auth-js";
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { lovable } from "@/integrations/lovable-client";
+
+const getClientSessionFn = createServerFn({ method: "GET" }).handler(async () => {
+  const { getRequest, setResponseHeader } = await import("@tanstack/react-start/server");
+  const { lovable: lovableServer } = await import("@/integrations/lovable.server");
+  setResponseHeader("Cache-Control", "private, no-store");
+  const request = getRequest();
+  if (!request) return null;
+  return lovableServer.auth.getClientSession({ request });
+});
+
+async function loadSession() {
+  try {
+    return await getClientSessionFn();
+  } catch (error) {
+    console.error("Failed to load the session", error);
+    return null;
+  }
+}
 
 function NotFoundComponent() {
   return (
@@ -34,7 +56,7 @@ function NotFoundComponent() {
   );
 }
 
-function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+function ErrorComponent({ error, reset }: ErrorComponentProps) {
   console.error(error);
   const router = useRouter();
   useEffect(() => {
@@ -73,6 +95,8 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  headers: () => ({ "Cache-Control": "private, no-store" }),
+  beforeLoad: async () => ({ session: await loadSession() }),
   head: () => ({
     meta: [
       { charSet: "utf-8" },
@@ -115,12 +139,14 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 function RootComponent() {
-  const { queryClient } = Route.useRouteContext();
+  const { queryClient, session } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <AuthSessionProvider client={lovable.auth} session={session}>
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <Outlet />
+      </AuthSessionProvider>
     </QueryClientProvider>
   );
 }
