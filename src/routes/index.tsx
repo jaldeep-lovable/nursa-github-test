@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import nursaLogo from "@/assets/nursa-logo.png";
+import lovableLogo from "@/assets/lovable-logo.svg.asset.json";
 import { AuthControls } from "@/components/AuthControls";
 
 export const Route = createFileRoute("/")({
@@ -30,7 +31,10 @@ function Index() {
     : undefined;
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-center gap-3 bg-background px-6 text-center">
-      <img src={nursaLogo} alt="Nursa logo" className="absolute top-8 left-1/2 h-12 w-auto -translate-x-1/2" />
+      <div className="absolute top-8 left-1/2 flex w-max max-w-[calc(100%-3rem)] -translate-x-1/2 items-center gap-5 sm:gap-8">
+        <img src={nursaLogo} alt="Nursa logo" className="h-12 w-auto min-w-0 object-contain" />
+        <img src={lovableLogo.url} alt="Lovable logo" className="h-8 w-auto min-w-0 object-contain sm:h-10" />
+      </div>
       <h1 className="text-4xl font-semibold tracking-tight text-foreground">
         Github test
       </h1>

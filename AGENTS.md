@@ -12,4 +12,5 @@
 <!-- AGENT-MEMORY:BEGIN -->
 - Sign-in uses Lovable Auth (managed_oidc); root beforeLoad loads the session and wraps the app in AuthSessionProvider. Why: one auth source for SSR and client.
 - Sign-in controls live in src/components/AuthControls.tsx and show only enabled methods (Google, email). Why: hosted pages own codes/passwords.
+- Vitest uses a separate React configuration without route transforms. Why: page requirements render the actual page synchronously.
 <!-- AGENT-MEMORY:END -->
