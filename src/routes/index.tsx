@@ -35,10 +35,10 @@ function Index() {
         <img src={nursaLogo} alt="Nursa logo" className="h-12 w-auto min-w-0 object-contain" />
         <img src={lovableLogo.url} alt="Lovable logo" className="h-8 w-auto min-w-0 object-contain sm:h-10" />
       </div>
-      <h1 className="text-4xl font-semibold tracking-tight text-foreground">
+      <h1 className="text-5xl font-semibold tracking-normal text-foreground">
         Github test
       </h1>
-      <p className="max-w-xl text-lg text-muted-foreground">
+      <p className="max-w-xl text-2xl text-muted-foreground">
         This is a github project to test protected branches and CI checks in github
       </p>
       <div className="mt-6 flex w-full justify-center">
